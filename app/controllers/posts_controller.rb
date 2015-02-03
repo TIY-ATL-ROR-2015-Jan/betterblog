@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_user
 
   # GET /posts
   # GET /posts.json
@@ -32,13 +33,13 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    binding.pry
     @post = Post.new(post_params)
+    @post.user_id = params[:user_id]
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
+        format.html { redirect_to [@user, @post], notice: 'Post was successfully created.' }
+        format.json { render :show, status: :created, location: [@user, @post] }
       else
         format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
@@ -74,6 +75,10 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
+    end
+
+    def set_user
+      @user = User.find(params[:user_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

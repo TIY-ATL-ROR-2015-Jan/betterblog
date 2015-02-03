@@ -1,9 +1,5 @@
-<%= form_for(User.new, @post) do |f| %>
+<%= form_for([@user, @post]) do |f| %>
 
-  <div class="field">
-      <%= f.label 'User' %>
-      <%= f.text_field :user_id %>
-  </div>
   <div class="field">
     <%= f.label 'Title' %><br>
     <%= f.text_field :title %>
