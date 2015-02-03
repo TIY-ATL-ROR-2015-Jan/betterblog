@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users, :only => [:index] do
+  resources :users, :only => [:index, :destroy] do
     resources :posts
   end
 
