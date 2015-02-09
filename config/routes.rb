@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :users, :only => [:index, :destroy] do
     resources :posts
+    get '/month/:month', to: 'posts#month', as: 'month'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

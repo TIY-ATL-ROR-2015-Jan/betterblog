@@ -18,6 +18,12 @@ class PostsController < ApplicationController
     end
   end
 
+  # GET /month/2015-01
+  def month
+    @posts = @user.posts.where("strftime('%Y-%m', created_at) = ?", params[:month])
+    render :index
+  end
+
   # GET /posts/new
   def new
     @post = Post.new

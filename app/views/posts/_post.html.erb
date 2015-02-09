@@ -1,0 +1,5 @@
+<p id="notice"><%= notice %></p>
+
+<h2><%= link_to_unless_current post.title, [@user, post] %></h2>
+<h3><i>Written on</i> <%= post.created_at %></h3>
+<%= simple_format post.body %>
