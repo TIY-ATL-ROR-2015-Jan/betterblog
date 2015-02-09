@@ -7,7 +7,7 @@
         <li>Hi there, <%= user.username %>.
             Actions:
             <%=  link_to "Your Posts", user_posts_path(user) %> |
-            <%=  link_to "Fuck this site", user_path(user), method: :delete %>
+            <%=  link_to "Delete Account", user_path(user), method: :delete %>
         </li>
     <%  end  %>
 </ul>
