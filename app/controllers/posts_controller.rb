@@ -39,11 +39,13 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+    tags = params.delete(:tags)
     @post = Post.new(post_params)
     @post.user_id = params[:user_id]
 
     respond_to do |format|
       if @post.save
+        sync_post_tags(tags)
         format.html { redirect_to [@user, @post], notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: [@user, @post] }
       else
@@ -56,8 +58,10 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
   def update
+    tags = params.delete(:tags)
     respond_to do |format|
       if @post.update(post_params)
+        sync_post_tags(tags)
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render :show, status: :ok, location: @post }
       else
@@ -85,6 +89,16 @@ class PostsController < ApplicationController
 
     def set_user
       @user = User.find(params[:user_id])
+    end
+
+    def sync_post_tags(tags)
+      # map(&:strip) = map { |x| x.strip }
+      PostTag.where(:post_id => @post.id).delete_all
+      tags.split(',').map(&:strip).each do |t|
+        tag = Tag.create_or_find_by(:name => t)
+        PostTag.create_or_find_by(:post_id => @post.id,
+                                  :tag_id => tag.id)
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
