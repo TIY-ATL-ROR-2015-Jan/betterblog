@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get '/users/new', to: 'users#new'
   post '/users', to: 'users#create'
 
+  root to: 'users#index'
   resources :users, :only => [:index, :destroy] do
     resources :posts
     get '/month/:month', to: 'posts#month', as: 'month'
