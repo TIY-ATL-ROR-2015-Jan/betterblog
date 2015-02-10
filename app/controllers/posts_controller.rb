@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
   before_action :set_user
+  before_action :authenticate_user!, :except => [:show, :index, :month]
+  before_action :redirect_unless_user_match, :except => [:show, :index, :month]
 
   # GET /posts
   # GET /posts.json
@@ -90,5 +92,12 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require(:post).permit(:title, :body)
+    end
+
+    def redirect_unless_user_match
+      unless @user == current_user
+        flash[:notice] = "You cannot perform actions on #{@user.username}"
+        redirect_to :root
+      end
     end
 end
