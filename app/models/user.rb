@@ -16,13 +16,21 @@ class User < ActiveRecord::Base
             format: { with: /[a-zA-Z0-9]{4,20}/,
                       message: "must be between 4 and 20 alphanumerics." }
 
-  def follow(user)
-    self.following.where(:followed_id => user.id).first_or_create!
+  ## These follow, unfollow, follows methods will return user objects.
+  ## The commented out alternatives below return relationship objects.
+  ## Either version works fine to follow, unfollow, or check if one user follows another.
+
+  ## For the "list a user's followers" view, you don't need these methods,
+  ## you can just iterate over @user.followers and print the username for
+  ## each follower with a link to their shouts page or similar.
+
+  def follow!(user)
+    self.following.where("relationships.followed_id => ?", user.id).first_or_create!
   end
 
-  def unfollow(user)
-    # TODO: This breaks if we aren't following user
-    self.following.where(:followed_id => user.id).destroy!
+  def unfollow!(user)
+    # NOTE: This throws an exception if we aren't following user
+    self.following.where("relationships.followed_id" => user.id).destroy!
   end
 
   def follows?(user)
