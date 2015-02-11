@@ -28,4 +28,17 @@ class User < ActiveRecord::Base
   def follows?(user)
     self.following.include?(user)
   end
+
+  # Alternately
+  # def follows?(other_user)
+  #   self.relationships.find_by(followed_id: other_user.id)
+  # end
+
+  # def follow!(other_user)
+  #   self.relationships.create!(followed_id: other_user.id)
+  # end
+
+  # def unfollow!(other_user)
+  #   self.relationships.find_by(followed_id: other_user.id).destroy
+  # end
 end
