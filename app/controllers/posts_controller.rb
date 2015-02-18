@@ -7,7 +7,8 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = @user.posts.includes(:tags)
+    all_posts = @user.posts.includes(:tags)
+    @posts = all_posts.order(created_at: :desc).page(params[:page])
   end
 
   # GET /posts/1
