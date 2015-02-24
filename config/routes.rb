@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   root to: 'users#index'
   resources :users, :only => [:index, :destroy] do
-    resources :posts
+    resources :posts do
+      resources :comments, :only => [:create]
+    end
     get '/month/:month', to: 'posts#month', as: 'month'
   end
 
