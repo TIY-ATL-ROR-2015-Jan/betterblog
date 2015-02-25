@@ -8,7 +8,8 @@
 </head>
 <body>
     <% if current_user %>
-        <%= link_to "Sign Out", destroy_user_session_path, method: :delete %>
+        <%= link_to "Sign Out", destroy_user_session_path, method: :delete,
+              class: 'btn btn-info btn-sm'%>
     <% end %>
 
 <p class="notice"><%= notice %></p>
