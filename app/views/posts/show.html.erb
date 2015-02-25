@@ -2,15 +2,15 @@
 
 <%= render "post", post: @post %>
 
-<%= link_to 'Edit', edit_user_post_path(@user, @post) %> |
-<%= link_to 'Back', user_posts_path(@user) %>
+<%= link_to 'Edit', edit_user_post_path(@user, @post), class: 'btn btn-default btn-xs' %> |
+<%= link_to 'Back', user_posts_path(@user), class: 'btn btn-default btn-xs' %>
 
 <%= form_for [@user, @post, Comment.new], remote: true do |f| %>
     <p>
         <%= f.label :body, "New comment" %><br/>
         <%= f.text_area :body %>
     </p>
-<p><%= f.submit "Add comment" %></p>
+<p><%= f.submit "Add comment", class: 'btn btn-success btn-xs' %></p>
 <% end %>
 
 <h2>Comments</h2>

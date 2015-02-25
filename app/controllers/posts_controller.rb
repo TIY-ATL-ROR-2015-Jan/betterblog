@@ -96,7 +96,7 @@ class PostsController < ApplicationController
 
     def redirect_unless_user_match
       unless @user == current_user
-        flash[:notice] = "You cannot perform actions on #{@user.username}"
+        flash[:warning] = "You cannot perform actions on #{@user.username}"
         redirect_to :root
       end
     end
