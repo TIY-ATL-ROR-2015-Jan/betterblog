@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       @user.destroy
       redirect_to users_path, notice: "User deleted."
     else
-      flash[:alert] = "You are only allowed to delete your own account!"
+      flash[:warning] = "You are only allowed to delete your own account!"
       redirect_to :root
     end
   end
