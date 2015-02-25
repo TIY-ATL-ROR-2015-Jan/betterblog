@@ -9,7 +9,6 @@ gem 'kaminari'
 
 # Let's not have the ugliest blog ever. Bootstrap all the things!
 gem 'bootstrap-sass'
-gem 'autoprefixer-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
