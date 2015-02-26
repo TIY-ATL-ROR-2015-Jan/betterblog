@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
-  get '/users/new', to: 'users#new'
-  post '/users', to: 'users#create'
 
   root to: 'users#index'
-  resources :users, :only => [:index, :destroy] do
+  get '/songsearch', to: 'songs#show'
+
+  get '/users/new', to: 'users#new'
+  post '/users', to: 'users#create'
+resources :users, :only => [:index, :destroy] do
     resources :posts do
       resources :comments, :only => [:create]
     end

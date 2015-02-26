@@ -1,0 +1,7 @@
+<%= form_tag '/songsearch', id: "search_form" do %>
+  <%= text_field_tag 'query', nil, placeholder: 'Type an Artist Name' %>
+  <%= submit_tag "Search!" %>
+<% end %>
+
+<div id="song_results">
+</div>
