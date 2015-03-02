@@ -1,14 +1,10 @@
-// find template and compile it
-
 window.SongSearch = {};
 
-(function (exports) {
-    var
-    // templateSource = document.getElementById('results-template').innerHTML,
-    // template = Handlebars.compile(templateSource),
-    resultsPlaceholder = document.getElementById('song_results'),
-    playingCssClass = 'playing',
-    audioObject = null;
+(function (module) {
+    var audioObject = null;
+    var trackHTML = "<div style='background-image:url(<%= album.images[0].url %>)'" +
+            "data-album-id=<%= id %> class='track cover'></div>";
+    var trackTemplate = _.template(trackHTML);
 
     var fetchTracks = function (albumId, callback) {
         $.ajax({
@@ -27,13 +23,16 @@ window.SongSearch = {};
                 type: 'track'
             },
             success: function (response) {
+                $("#song_results").empty();
                 console.log(response);
-                //resultsPlaceholder.innerHTML = template(response);
+                _.each(response.tracks.items, function(track) {
+                    $('#song_results').append(trackTemplate(track));
+                });
             }
         });
     };
 
-    exports.searchTracks = searchTracks;
+    module.searchTracks = searchTracks;
 
 })(window.SongSearch);
 
