@@ -3,17 +3,8 @@ window.SongSearch = {};
 (function (module) {
     var audioObject = null;
     var trackHTML = "<div style='background-image:url(<%= album.images[0].url %>)'" +
-            "data-album-id=<%= id %> class='track cover'></div>";
+            "data-preview-url=<%= preview_url %> class='track cover'></div>";
     var trackTemplate = _.template(trackHTML);
-
-    var fetchTracks = function (albumId, callback) {
-        $.ajax({
-            url: 'https://api.spotify.com/v1/albums/' + albumId,
-            success: function (response) {
-                callback(response);
-            }
-        });
-    };
 
     var searchTracks = function (query) {
         $.ajax({
@@ -32,7 +23,35 @@ window.SongSearch = {};
         });
     };
 
+    var updateAudio = function (target, attr) {
+        if (audioObject) {
+            audioObject.pause();
+        }
+        audioObject = new Audio(target.getAttribute(attr));
+        audioObject.play();
+        target.classList.add('playing');
+        audioObject.addEventListener('ended', function () {
+            target.classList.remove('playing');
+        });
+        audioObject.addEventListener('pause', function () {
+            target.classList.remove('playing');
+        });
+    };
+
+    var playTrack = function (e) {
+        console.log(e);
+        var target = e.target;
+        if (target !== null && target.classList.contains('track')) {
+            if (target.classList.contains('playing')) {
+                audioObject.pause();
+            } else {
+                updateAudio(target, 'data-preview-url');
+            }
+        }
+    };
+
     module.searchTracks = searchTracks;
+    module.playTrack = playTrack;
 
 })(window.SongSearch);
 
@@ -42,5 +61,6 @@ $(document).ready(function () {
         e.preventDefault();
         SongSearch.searchTracks(document.getElementById('query').value);
     });
+    $('#song_results').on('click', SongSearch.playTrack);
     console.log(cookies);
 });

@@ -4,3 +4,7 @@
     display: inline-block;
     background-size: cover;
 }
+
+.cover.playing {
+  border: 5px solid #e45343;
+}
